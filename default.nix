@@ -116,7 +116,13 @@ let
       inherit pkgs;
     };
 
-    zephyr = import ./zephyr.nix {
+    zephyr = zephyr-0_5;
+
+    zephyr-0_4 = import ./zephyr/0.4.0.nix {
+      inherit pkgs;
+    };
+
+    zephyr-0_5 = import ./zephyr/0.5.0.nix {
       inherit pkgs;
     };
 
