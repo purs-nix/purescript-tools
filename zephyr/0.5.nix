@@ -3,20 +3,21 @@
 pkgs.stdenv.mkDerivation rec {
   pname = "zephyr";
 
-  version = "0.4.0";
+  version = "0.5.2";
 
   src =
-    if pkgs.stdenv.isDarwin then
-      pkgs.fetchurl
-        {
-          url = "https://github.com/MaybeJustJames/zephyr/releases/download/v${version}/macOS.tar.gz";
-          sha256 = "1di4zk75pw0g2hk2zq61v7msvq2ibd9wxnk21nz26fxqw09gxacd";
-        }
-    else
-      pkgs.fetchurl {
+    if pkgs.stdenv.hostPlatform.system == "x86_64-linux" then
+      (pkgs.fetchurl {
         url = "https://github.com/MaybeJustJames/zephyr/releases/download/v${version}/Linux.tar.gz";
-        sha256 = "002rlf9s81il5x3adv7qhj0wxbnvv348l5rcllkrbivk008bb83x";
-      };
+        hash = "sha256-kHOaSqI5mS4OhfjbudQDtbtfsORrqDIf1SP/3rGL7pU=";
+      })
+    else if pkgs.stdenv.hostPlatform.system == "x86_64-darwin" then
+      (pkgs.fetchurl {
+        url = "https://github.com/MaybeJustJames/zephyr/releases/download/v${version}/macOS.tar.gz";
+        hash = "sha256-PXxBttMaQBn7x6aHzR7ONIDJMWdEiWyyzw/xkoUWyBs=";
+      })
+    else
+      throw "Architecture not supported";
 
   nativeBuildInputs = [ ]
     ++ pkgs.lib.optional pkgs.stdenv.isDarwin pkgs.fixDarwinDylibNames;
