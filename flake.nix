@@ -164,5 +164,6 @@
                  aliases.lint = ''deadnix flake.nix purescript/*'';
                };
          }
-      );
+      )
+      // { herculesCI.ciSystems = [ "x86_64-linux" ]; };
 }
