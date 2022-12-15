@@ -38,4 +38,6 @@ in pkgs.stdenv.mkDerivation rec {
     mkdir -p $out/etc/bash_completion.d/
     $PURS --bash-completion-script $PURS > $out/etc/bash_completion.d/purs-completion.bash
   '';
+
+  meta.description = "A strongly-typed functional programming language that compiles to JavaScript";
 }
