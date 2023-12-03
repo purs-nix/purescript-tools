@@ -1,6 +1,5 @@
 { inputs =
-    { deadnix.url = "github:astro/deadnix";
-      make-shell.url = "github:ursi/nix-make-shell/1";
+    { make-shell.url = "github:ursi/nix-make-shell/1";
       nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
       utils.url = "github:ursi/flake-utils/8";
     };
@@ -11,7 +10,7 @@
       { inherit inputs;
         systems = [ "x86_64-linux" "x86_64-darwin" ];
       }
-      ({ deadnix, make-shell, pkgs, ... }:
+      ({ make-shell, pkgs, ... }:
          let l = pkgs.lib; p = pkgs; in
          rec
          { legacyPackages =
@@ -137,7 +136,7 @@
              { lint =
                  p.runCommand "lint" {}
                    ''
-                   ${deadnix}/bin/deadnix -f \
+                   ${p.deadnix}/bin/deadnix -f \
                      $(find ${./flake.nix} ${./purescript}/* -name "*.nix")
 
                    touch $out
@@ -160,7 +159,7 @@
 
            devShells.default =
              make-shell
-               { packages = [ deadnix ] ++ [ legacyPackages.purescript-language-server ];
+               { packages = [ p.deadnix ] ++ [ legacyPackages.purescript-language-server ];
                  aliases.lint = ''deadnix flake.nix purescript/*'';
                };
          }
