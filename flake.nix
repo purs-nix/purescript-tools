@@ -75,7 +75,7 @@
                    pulp-16 = import ./pulp/16.0.0-0 { inherit pkgs; };
                    pulp-15 = import ./pulp/15.0.0 { inherit pkgs; };
                    purescript = purescript-0_15;
-                   purescript-0_15 = purescripts.purescript-0_15_13;
+                   purescript-0_15 = purescripts.purescript-0_15_14;
                    purescript-0_14 = purescripts.purescript-0_14_9;
                    purescript-0_13 = purescripts.purescript-0_13_8;
 
