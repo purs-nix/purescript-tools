@@ -7,11 +7,12 @@ let
   urls = {
     "x86_64-linux" = {
       url = "https://github.com/purescript/purescript/releases/download/v${version}/linux64.tar.gz";
-      hash = "sha256:393a8955b40e945095f469a976421f8dfa595040";
+      hash = "sha256:0i717gb4d21m0pi1k90g5diq3yja1pwlw6ripv0d70jdnd9gsdl9";
     };
     "x86_64-darwin" = {
       url = "https://github.com/purescript/purescript/releases/download/v${version}/macos.tar.gz";
-      hash = "sha256:6238f3691d74c0f0a636a562b055f04ea0a7680f";
+      hash = "sha256:01973wiybblfbgjbqrhr8435y6jk6c94i667nr3zxkxy4np3lv3q";
+
     };
   };
 
