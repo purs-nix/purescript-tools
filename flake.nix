@@ -21,6 +21,7 @@
           l = pkgs.lib;
           p = pkgs;
           p' = new-nixpkgs;
+          purs-nix = getFlake "github:purs-nix/purs-nix/f26f8eefb36ca76fed0d98eee8679005fad7ade1";
         in
         rec {
           legacyPackages =
@@ -86,7 +87,7 @@
                 purescript-0_13 = purescripts.purescript-0_13_8;
 
                 purescript-language-server =
-                  import ./purescript-language-server { inherit pkgs; };
+                  import ./purescript-language-server.nix { pkgs = p'; inherit purs-nix system; };
 
                 purs-tidy = import ./purs-tidy { inherit pkgs; };
                 purty = import ./purty.nix { inherit pkgs; };
