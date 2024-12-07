@@ -1,6 +1,21 @@
 {
   "nodes": {
     "flake-utils": {
+      "locked": {
+        "lastModified": 1644229661,
+        "narHash": "sha256-1YdnJAsNy69bpcjuoKdOYQX0YxZBiCYZo4Twxerqv7k=",
+        "owner": "numtide",
+        "repo": "flake-utils",
+        "rev": "3cecb5b042f7f209c56ffd8371b2711a290ec797",
+        "type": "github"
+      },
+      "original": {
+        "owner": "numtide",
+        "repo": "flake-utils",
+        "type": "github"
+      }
+    },
+    "flake-utils_2": {
       "inputs": {
         "systems": "systems"
       },
@@ -15,6 +30,27 @@
       "original": {
         "owner": "numtide",
         "repo": "flake-utils",
+        "type": "github"
+      }
+    },
+    "lint-utils": {
+      "inputs": {
+        "flake-utils": "flake-utils",
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1708583908,
+        "narHash": "sha256-zuNxxkt/wS8Z5TbGarf4QZVDt1R65dDkEw/s2T/tCW4=",
+        "owner": "homotopic",
+        "repo": "lint-utils",
+        "rev": "2d77caa3644065ee0f462cc5ea654280c59127b2",
+        "type": "github"
+      },
+      "original": {
+        "owner": "homotopic",
+        "repo": "lint-utils",
         "type": "github"
       }
     },
@@ -36,6 +72,7 @@
     },
     "root": {
       "inputs": {
+        "lint-utils": "lint-utils",
         "nixpkgs": "nixpkgs",
         "utils": "utils"
       }
@@ -57,7 +94,7 @@
     },
     "utils": {
       "inputs": {
-        "flake-utils": "flake-utils"
+        "flake-utils": "flake-utils_2"
       },
       "locked": {
         "lastModified": 1658606827,

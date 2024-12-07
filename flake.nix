@@ -1,9 +1,12 @@
 {
-  inputs =
-    {
-      nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
-      utils.url = "github:ursi/flake-utils/8";
+  inputs = {
+    lint-utils = {
+      url = "github:homotopic/lint-utils";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
+    nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
+    utils.url = "github:ursi/flake-utils/8";
+  };
 
   outputs = { utils, ... }@inputs:
     with builtins;
@@ -12,7 +15,7 @@
         inherit inputs;
         systems = [ "x86_64-linux" "x86_64-darwin" ];
       }
-      ({ pkgs, ... }:
+      ({ lint-utils, pkgs, system, ... }:
         let l = pkgs.lib; p = pkgs; in
         rec {
           legacyPackages =
@@ -129,14 +132,13 @@
                         touch $out
                       '';
                 };
+
+              lu = inputs.lint-utils.linters.${system};
             in
             {
-              lint = p.runCommand "lint" { } ''
-                ${p.deadnix}/bin/deadnix -f \
-                  $(find ${./flake.nix} ${./purescript}/* -name "*.nix")
-
-                touch $out
-              '';
+              deadnix = lu.deadnix { src = ./purescript; };
+              formatting = lu.nixpkgs-fmt { src = ./.; };
+              statix = lu.statix { src = ./purescript; };
 
               "everything builds" =
                 p.runCommand "build-everything" { }
@@ -154,10 +156,9 @@
           devShells.default =
             p.mkShell {
               packages = [ p.deadnix ] ++ [ legacyPackages.purescript-language-server ];
-              # aliases.lint = ''deadnix flake.nix purescript/*'';
             };
 
-          formatter = p.nixpkgs-fmt;
+          formatter = lint-utils.nixpkgs-fmt;
         }
       )
     // { herculesCI.ciSystems = [ "x86_64-linux" ]; };
