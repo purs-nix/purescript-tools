@@ -1,7 +1,6 @@
 {
   inputs =
     {
-      make-shell.url = "github:ursi/nix-make-shell/1";
       nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
       utils.url = "github:ursi/flake-utils/8";
     };
@@ -13,7 +12,7 @@
         inherit inputs;
         systems = [ "x86_64-linux" "x86_64-darwin" ];
       }
-      ({ make-shell, pkgs, ... }:
+      ({ pkgs, ... }:
         let l = pkgs.lib; p = pkgs; in
         rec {
           legacyPackages =
@@ -153,9 +152,9 @@
             // packages-for-version "0.13";
 
           devShells.default =
-            make-shell {
+            p.mkShell {
               packages = [ p.deadnix ] ++ [ legacyPackages.purescript-language-server ];
-              aliases.lint = ''deadnix flake.nix purescript/*'';
+              # aliases.lint = ''deadnix flake.nix purescript/*'';
             };
 
           formatter = p.nixpkgs-fmt;
