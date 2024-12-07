@@ -2,9 +2,10 @@
   inputs = {
     lint-utils = {
       url = "github:homotopic/lint-utils";
-      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.nixpkgs.follows = "new-nixpkgs";
     };
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
+    new-nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
     utils.url = "github:ursi/flake-utils/8";
   };
 
@@ -15,8 +16,12 @@
         inherit inputs;
         systems = [ "x86_64-linux" "x86_64-darwin" ];
       }
-      ({ lint-utils, pkgs, system, ... }:
-        let l = pkgs.lib; p = pkgs; in
+      ({ lint-utils, new-nixpkgs, pkgs, system, ... }:
+        let
+          l = pkgs.lib;
+          p = pkgs;
+          p' = new-nixpkgs;
+        in
         rec {
           legacyPackages =
             let
