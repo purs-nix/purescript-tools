@@ -19,10 +19,10 @@ let
 
   # Temporary fix for https://github.com/justinwoo/easy-purescript-nix/issues/188
   pkgs_ncurses = pkgs.extend (_: super: {
-      ncurses5 = super.ncurses5.overrideAttrs (attr: {
-        configureFlags = attr.configureFlags ++ ["--with-versioned-syms"];
-      });
+    ncurses5 = super.ncurses5.overrideAttrs (attr: {
+      configureFlags = attr.configureFlags ++ [ "--with-versioned-syms" ];
     });
+  });
 in
 import ./mkPursDerivation.nix {
   inherit version src;

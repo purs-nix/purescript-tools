@@ -1,4 +1,4 @@
-{ pkgs ? import <nixpkgs> {}, version, src }:
+{ pkgs ? import <nixpkgs> { }, version, src }:
 
 let
   _version = version;
@@ -7,15 +7,17 @@ let
 
   dynamic-linker = pkgs.stdenv.cc.bintools.dynamicLinker;
 
-  patchelf = libPath: if pkgs.stdenv.isDarwin
+  patchelf = libPath:
+    if pkgs.stdenv.isDarwin
     then ""
     else ''
-          chmod u+w $PURS
-          patchelf --interpreter ${dynamic-linker} --set-rpath ${libPath} $PURS
-          chmod u-w $PURS
-        '';
+      chmod u+w $PURS
+      patchelf --interpreter ${dynamic-linker} --set-rpath ${libPath} $PURS
+      chmod u-w $PURS
+    '';
 
-in pkgs.stdenv.mkDerivation rec {
+in
+pkgs.stdenv.mkDerivation rec {
   pname = "purescript";
 
   version = _version;

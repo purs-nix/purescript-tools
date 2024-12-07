@@ -1,18 +1,23 @@
-{ pkgs ? import <nixpkgs> {} }:
+{ pkgs ? import <nixpkgs> { } }:
 
 let
   version = "0.13.0";
 
-  src = if pkgs.stdenv.isDarwin
-    then pkgs.fetchurl {
-      url = "https://github.com/purescript/purescript/releases/download/v${version}/macos.tar.gz";
-      sha256 = "0xpisy38gj6fgyyzm6fdl0v819dhjmil4634xxangvhvs7jf5il0";
-    }
-    else pkgs.fetchurl {
-      url = "https://github.com/purescript/purescript/releases/download/v${version}/linux64.tar.gz";
-      sha256 = "06g5q69yv6c3alq9vr8zjqqzamlii7xf6vj9j52akjq5lww214ba";
-    };
+  src =
+    if pkgs.stdenv.isDarwin
+    then
+      pkgs.fetchurl
+        {
+          url = "https://github.com/purescript/purescript/releases/download/v${version}/macos.tar.gz";
+          sha256 = "0xpisy38gj6fgyyzm6fdl0v819dhjmil4634xxangvhvs7jf5il0";
+        }
+    else
+      pkgs.fetchurl {
+        url = "https://github.com/purescript/purescript/releases/download/v${version}/linux64.tar.gz";
+        sha256 = "06g5q69yv6c3alq9vr8zjqqzamlii7xf6vj9j52akjq5lww214ba";
+      };
 
-in import ./mkPursDerivation.nix {
+in
+import ./mkPursDerivation.nix {
   inherit pkgs version src;
 }
