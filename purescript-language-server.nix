@@ -9,10 +9,16 @@ let
     rev = "5c5754af5cee3f6f47934941ebcb178a50d789e2";
   };
 
+  node_modules = p.importNpmLock.buildNodeModules
+    {
+      npmRoot = src;
+      inherit (p) nodejs;
+    } + /node_modules;
+
   purs-nix' = purs-nix {
     inherit pkgs system;
     overlays = [
-      (_: _: {
+      (_: super: {
         foreign-generic = {
           src.git = {
             repo = "https://github.com/working-group-purescript-es/purescript-foreign-generic.git";
@@ -79,7 +85,12 @@ let
               "random"
               "strings"
             ];
+
+            foreign."Node.Which" = { inherit node_modules; };
           };
+        };
+        uuid = l.recursiveUpdate super.uuid {
+          purs-nix-info.foreign."Data.UUID" = { inherit node_modules; };
         };
       })
     ];
@@ -143,38 +154,27 @@ let
       "node-event-emitter"
     ];
 
-    foreign =
-      let
-        node_modules = p.importNpmLock.buildNodeModules
-          {
-            npmRoot = src;
-            inherit (p) nodejs;
-          } + /node_modules;
-      in
-      l.genAttrs [
-        "Data.UUID"
-        "IdePurescript.Exec"
-        "LanguageServer.IdePurescript.Build"
-        "LanguageServer.Protocol.Handlers"
-        "LanguageServer.Protocol.Setup"
-        "LanguageServer.Protocol.Uri"
-        "LanguageServer.Protocol.Workspace"
-        "Node.Which"
-      ]
-        (_: { inherit node_modules; });
+    foreign = l.genAttrs [
+      "IdePurescript.Exec"
+      "LanguageServer.IdePurescript.Build"
+      "LanguageServer.Protocol.Handlers"
+      "LanguageServer.Protocol.Setup"
+      "LanguageServer.Protocol.Uri"
+      "LanguageServer.Protocol.Workspace"
+    ]
+      (_: { inherit node_modules; });
     dir = src;
   };
 
   package-json = l.importJSON "${src}/package.json";
 in
-p.stdenv.mkDerivation {
+p.stdenvNoCC.mkDerivation {
   pname = package-json.name;
   version = package-json.version;
   inherit src;
-  buildInputs = [
-    p.nodejs
-    (ps.command {
-      bundle = {
+  buildPhase =
+    let
+      bundle = ps.bundle {
         esbuild = {
           "banner:js" = "#!${l.getExe p.nodejs}";
           outfile = "purescript-language-server";
@@ -182,12 +182,11 @@ p.stdenv.mkDerivation {
         };
         module = "LanguageServer.IdePurescript.Main";
       };
-    })
-  ];
-  buildPhase = ''
-    purs-nix bundle
-    chmod +x purescript-language-server
-  '';
+    in
+    ''
+      cp ${bundle} purescript-language-server
+      chmod +x purescript-language-server
+    '';
   installPhase = ''
     mkdir -p $out/bin
     mv purescript-language-server $out/bin
