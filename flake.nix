@@ -50,9 +50,15 @@
                         attrNames
                       ]));
 
-              common =
-                with packages;
-                { inherit psa pscid purescript-language-server purs-tidy purty; };
+              common = with packages; {
+                inherit
+                  psa
+                  pscid
+                  purescript-backend-optimizer
+                  purescript-language-server
+                  purs-tidy
+                  purty;
+              };
 
               for-0_15 =
                 with packages; {
@@ -81,6 +87,10 @@
                 pulp = pulp-16;
                 pulp-16 = import ./pulp/16.0.0-0 { inherit pkgs; };
                 pulp-15 = import ./pulp/15.0.0 { inherit pkgs; };
+
+                purescript-backend-optimizer =
+                  import ./purescript-backend-optimizer.nix { pkgs = p'; inherit purs-nix system; };
+
                 purescript = purescript-0_15;
                 purescript-0_15 = purescripts.purescript-0_15_14;
                 purescript-0_14 = purescripts.purescript-0_14_9;
@@ -122,6 +132,9 @@
 
                         echo pulp
                         pulp --version
+
+                        echo purs-backend-es
+                        purs-backend-es --version
 
                         echo purs
                         purs --version
