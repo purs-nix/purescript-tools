@@ -185,6 +185,8 @@ p.stdenvNoCC.mkDerivation {
     '';
   installPhase = ''
     mkdir -p $out/bin
-    mv purescript-language-server $out/bin
+    mkdir -p $out/lib
+    mv package.json purescript-language-server $out/lib
+    ln -s $out/lib/purescript-language-server $out/bin
   '';
 }
