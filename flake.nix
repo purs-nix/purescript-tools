@@ -77,7 +77,7 @@
 
               packages = rec {
                 psa = import ./psa.nix { pkgs = p'; inherit purs-nix system; };
-                pscid = import ./pscid { inherit pkgs; };
+                pscid = import ./pscid.nix { pkgs = p'; inherit purs-nix system; };
                 pulp = pulp-16;
                 pulp-16 = import ./pulp/16.0.0-0 { inherit pkgs; };
                 pulp-15 = import ./pulp/15.0.0 { inherit pkgs; };
