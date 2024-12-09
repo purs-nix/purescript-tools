@@ -9,11 +9,7 @@ let
     rev = "c0e787386dfdb9ccbc943d84711f420ee1dcd80e";
   };
 
-  node_modules = p.importNpmLock.buildNodeModules
-    {
-      npmRoot = src;
-      inherit (p) nodejs;
-    } + /node_modules;
+  node_modules = (import ./lib.nix p).node_modules src;
 
   purs-nix' = purs-nix { inherit pkgs system; };
 
