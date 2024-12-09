@@ -76,7 +76,7 @@
                 } // common;
 
               packages = rec {
-                psa = import ./psa { inherit pkgs; };
+                psa = import ./psa.nix { pkgs = p'; inherit purs-nix system; };
                 pscid = import ./pscid { inherit pkgs; };
                 pulp = pulp-16;
                 pulp-16 = import ./pulp/16.0.0-0 { inherit pkgs; };
