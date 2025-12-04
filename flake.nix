@@ -5,21 +5,19 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
-    utils.url = "github:ursi/flake-utils/8";
+    utils.url = "github:numtide/flake-utils";
   };
 
-  outputs = { utils, ... }@inputs:
+  outputs = inputs:
     with builtins;
-    utils.apply-systems
-      {
-        inherit inputs;
-        systems = [ "x86_64-linux" "x86_64-darwin" ];
-      }
-      ({ lint-utils, pkgs, system, ... }:
+    inputs.utils.lib.eachSystem [ "x86_64-linux" "x86_64-darwin" ]
+      (system:
         let
+          pkgs = inputs.nixpkgs.legacyPackages.${system};
           l = pkgs.lib;
           p = pkgs;
           purs-nix = getFlake "github:purs-nix/purs-nix/9b242d38656ceb40e8c9876d60bcaed2c71149d3";
+          lu-pkgs = inputs.lint-utils.packages.${system};
         in
         rec {
           legacyPackages =
@@ -166,6 +164,6 @@
               packages = [ p.deadnix ] ++ [ legacyPackages.purescript-language-server ];
             };
 
-          formatter = lint-utils.nixpkgs-fmt;
+          formatter = lu-pkgs.nixpkgs-fmt;
         });
 }

@@ -15,24 +15,6 @@
         "type": "github"
       }
     },
-    "flake-utils_2": {
-      "inputs": {
-        "systems": "systems"
-      },
-      "locked": {
-        "lastModified": 1731533236,
-        "narHash": "sha256-l0KFg5HjrsfsO/JpG+r7fRrqm12kzFHyUHqHCVpMMbI=",
-        "owner": "numtide",
-        "repo": "flake-utils",
-        "rev": "11707dc2f618dd54ca8739b309ec4fc024de578b",
-        "type": "github"
-      },
-      "original": {
-        "owner": "numtide",
-        "repo": "flake-utils",
-        "type": "github"
-      }
-    },
     "lint-utils": {
       "inputs": {
         "flake-utils": "flake-utils",
@@ -94,19 +76,18 @@
     },
     "utils": {
       "inputs": {
-        "flake-utils": "flake-utils_2"
+        "systems": "systems"
       },
       "locked": {
-        "lastModified": 1658606827,
-        "narHash": "sha256-3kSWTDpV4+uApt/Xd0kv2m7TR1Y6A7SgYUeX86/qYuU=",
-        "owner": "ursi",
+        "lastModified": 1731533236,
+        "narHash": "sha256-l0KFg5HjrsfsO/JpG+r7fRrqm12kzFHyUHqHCVpMMbI=",
+        "owner": "numtide",
         "repo": "flake-utils",
-        "rev": "faec5f7431da6747a69957a9cd65e35b5173e10a",
+        "rev": "11707dc2f618dd54ca8739b309ec4fc024de578b",
         "type": "github"
       },
       "original": {
-        "owner": "ursi",
-        "ref": "8",
+        "owner": "numtide",
         "repo": "flake-utils",
         "type": "github"
       }

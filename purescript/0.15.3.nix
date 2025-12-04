@@ -1,7 +1,7 @@
 { pkgs }:
 
 let
-  inherit (pkgs) system;
+  inherit (pkgs.stdenv.hostPlatform) system;
   version = "v0.15.3";
 
   urls = {
