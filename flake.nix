@@ -81,7 +81,7 @@
                   import ./purescript-backend-optimizer.nix { inherit pkgs purs-nix system; };
 
                 purescript = purescript-0_15;
-                purescript-0_15 = purescripts.purescript-0_15_14;
+                purescript-0_15 = purescripts.purescript-0_15_15;
                 purescript-0_14 = purescripts.purescript-0_14_9;
                 purescript-0_13 = purescripts.purescript-0_13_8;
 
