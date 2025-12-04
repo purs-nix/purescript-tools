@@ -142,9 +142,9 @@
               lu = inputs.lint-utils.linters.${system};
             in
             {
-              deadnix = lu.deadnix { src = ./purescript; };
+              deadnix = lu.deadnix { src = ./.; };
               formatting = lu.nixpkgs-fmt { src = ./.; };
-              statix = lu.statix { src = ./purescript; };
+              statix = lu.statix { src = ./.; };
 
               "everything builds" =
                 p.runCommand "build-everything" { }

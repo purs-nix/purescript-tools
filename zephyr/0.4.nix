@@ -18,8 +18,7 @@ pkgs.stdenv.mkDerivation rec {
         hash = "sha256-XSO7DbEtLvGPQ2fxRYw4K0N0ofmMq6WXzbYGrJDfYd8=";
       };
 
-  nativeBuildInputs = [ ]
-    ++ pkgs.lib.optional pkgs.stdenv.isDarwin pkgs.fixDarwinDylibNames;
+  nativeBuildInputs = pkgs.lib.optional pkgs.stdenv.isDarwin pkgs.fixDarwinDylibNames;
 
   buildInputs = [
     pkgs.stdenv.cc.cc.lib

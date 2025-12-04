@@ -19,8 +19,7 @@ pkgs.stdenv.mkDerivation rec {
     else
       throw "Architecture not supported";
 
-  nativeBuildInputs = [ ]
-    ++ pkgs.lib.optional pkgs.stdenv.isDarwin pkgs.fixDarwinDylibNames;
+  nativeBuildInputs = pkgs.lib.optional pkgs.stdenv.isDarwin pkgs.fixDarwinDylibNames;
 
   buildInputs = [
     pkgs.stdenv.cc.cc.lib
