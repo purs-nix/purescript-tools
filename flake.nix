@@ -16,7 +16,11 @@
         systems = [ "x86_64-linux" "x86_64-darwin" ];
       }
       ({ lint-utils, pkgs, system, ... }:
-        let l = pkgs.lib; p = pkgs; in
+        let
+          l = pkgs.lib;
+          p = pkgs;
+          purs-nix = getFlake "github:purs-nix/purs-nix/9b242d38656ceb40e8c9876d60bcaed2c71149d3";
+        in
         rec {
           legacyPackages =
             let
@@ -44,47 +48,54 @@
                         attrNames
                       ]));
 
-              common =
-                with packages;
-                { inherit psa pscid purescript-language-server purs-tidy purty; };
+              common = with packages; {
+                inherit
+                  psa
+                  pscid
+                  purescript-backend-optimizer
+                  purescript-language-server
+                  purs-tidy;
+              };
 
               for-0_15 =
                 with packages; {
-                  pulp = pulp-16;
                   purescript = purescript-0_15;
                   zephyr = zephyr-0_5;
                 } // common;
 
               for-0_14 = with packages;
                 {
-                  pulp = pulp-15;
                   purescript = purescript-0_14;
                   zephyr = zephyr-0_4;
                 } // common;
 
               for-0_13 =
                 with packages; {
-                  pulp = pulp-15;
                   purescript = purescript-0_13;
                   zephyr = zephyr-0_4;
                 } // common;
 
               packages = rec {
-                psa = import ./psa { inherit pkgs; };
-                pscid = import ./pscid { inherit pkgs; };
-                pulp = pulp-16;
-                pulp-16 = import ./pulp/16.0.0-0 { inherit pkgs; };
-                pulp-15 = import ./pulp/15.0.0 { inherit pkgs; };
+                psa = import ./psa.nix { inherit pkgs purs-nix system; };
+                pscid = import ./pscid.nix { inherit pkgs purs-nix system; };
+
+                purescript-backend-optimizer =
+                  import ./purescript-backend-optimizer.nix { inherit pkgs purs-nix system; };
+
                 purescript = purescript-0_15;
                 purescript-0_15 = purescripts.purescript-0_15_14;
                 purescript-0_14 = purescripts.purescript-0_14_9;
                 purescript-0_13 = purescripts.purescript-0_13_8;
 
                 purescript-language-server =
-                  import ./purescript-language-server { inherit pkgs; };
+                  import ./purescript-language-server.nix { inherit pkgs purs-nix system; };
 
-                purs-tidy = import ./purs-tidy { inherit pkgs; };
-                purty = import ./purty.nix { inherit pkgs; };
+                purs-tidy =
+                  import ./purs-tidy.nix {
+                    pbo = purescript-backend-optimizer;
+                    inherit pkgs purs-nix system;
+                  };
+
                 zephyr = zephyr-0_5;
                 zephyr-0_5 = import ./zephyr/0.5.nix { inherit pkgs; };
                 zephyr-0_4 = import ./zephyr/0.4.nix { inherit pkgs; };
@@ -114,17 +125,14 @@
                         echo purescript-language-server
                         purescript-language-server --version
 
-                        echo pulp
-                        pulp --version
+                        echo purs-backend-es
+                        purs-backend-es --version
 
                         echo purs
                         purs --version
 
                         echo purs-tidy
                         purs-tidy --version
-
-                        echo purty
-                        purty version
 
                         echo zyphyr
                         zephyr --version
