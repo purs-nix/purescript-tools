@@ -42,7 +42,7 @@
                     (l.pipe ./purescript
                       [
                         readDir
-                        (a: removeAttrs a [ "mkPursDerivation.nix" ])
+                        (a: removeAttrs a [ "LICENSE" "mkPursDerivation.nix" ])
                         attrNames
                       ]));
 
