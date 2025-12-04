@@ -167,7 +167,5 @@
             };
 
           formatter = lint-utils.nixpkgs-fmt;
-        }
-      )
-    // { herculesCI.ciSystems = [ "x86_64-linux" ]; };
+        });
 }
