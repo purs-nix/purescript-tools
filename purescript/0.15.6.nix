@@ -1,16 +1,16 @@
 { pkgs ? import <nixpkgs> { }, system ? pkgs.stdenv.hostPlatform.system }:
 
 let
-  version = "v0.15.7";
+  version = "v0.15.6";
 
   urls = {
     "x86_64-linux" = {
       url = "https://github.com/purescript/purescript/releases/download/${version}/linux64.tar.gz";
-      sha256 = "032jqrk46k9zbq058ms8rnrq0209rd8vkxwj73vqrlgqvpzlfl5k";
+      sha256 = "1vw3igxv4zr5gf1ml5ls17w9cc9shdn8fvbk6dkfnxrs93cwrq0k";
     };
     "x86_64-darwin" = {
       url = "https://github.com/purescript/purescript/releases/download/${version}/macos.tar.gz";
-      sha256 = "0aq5sr93z6c5l76sqbj3g48z6yrhxfqxri0x1ajmjwhcwjg79d6v";
+      sha256 = "14l4m9xgp9slg4hfaqkwvzdvmg26qj2livldni3lmivvcagjgb2x";
     };
   };
 

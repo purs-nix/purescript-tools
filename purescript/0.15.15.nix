@@ -1,28 +1,26 @@
 { pkgs ? import <nixpkgs> { }, system ? pkgs.stdenv.hostPlatform.system }:
 
 let
-  version = "v0.15.7";
+  version = "v0.15.15";
 
   urls = {
     "x86_64-linux" = {
       url = "https://github.com/purescript/purescript/releases/download/${version}/linux64.tar.gz";
-      sha256 = "032jqrk46k9zbq058ms8rnrq0209rd8vkxwj73vqrlgqvpzlfl5k";
+      sha256 = "1w4jgjpfhaw3gkx9sna64lq9m030x49w4lwk01ik5ci0933imzj3";
     };
     "x86_64-darwin" = {
       url = "https://github.com/purescript/purescript/releases/download/${version}/macos.tar.gz";
-      sha256 = "0aq5sr93z6c5l76sqbj3g48z6yrhxfqxri0x1ajmjwhcwjg79d6v";
+      sha256 = "178ix54k2yragcgn0j8z1cfa78s1qbh1bsx3v9jnngby8igr6yn3";
+    };
+    "aarch64-darwin" = {
+      url = "https://github.com/purescript/purescript/releases/download/${version}/macos-arm64.tar.gz";
+      sha256 = "0bi231z1yhb7kjfn228wjkj6rv9lgpagz9f4djr2wy3kqgck4xg0";
     };
   };
 
   src =
     if builtins.hasAttr system urls then
       (pkgs.fetchurl urls.${system})
-    else if system == "aarch64-darwin" then
-      let
-        useArch = "x86_64-darwin";
-        msg = "Using the non-native ${useArch} binary. While this binary may run under Rosetta 2 translation, no guarantees can be made about stability or performance.";
-      in
-      pkgs.lib.warn msg (pkgs.fetchurl urls.${useArch})
     else
       throw "Architecture not supported: ${system}";
 in

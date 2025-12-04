@@ -1,7 +1,6 @@
-{ pkgs }:
+{ pkgs ? import <nixpkgs> { }, system ? pkgs.stdenv.hostPlatform.system }:
 
 let
-  inherit (pkgs.stdenv.hostPlatform) system;
   version = "v0.15.3";
 
   urls = {
