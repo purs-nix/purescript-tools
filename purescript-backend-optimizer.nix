@@ -117,5 +117,10 @@ p.stdenvNoCC.mkDerivation {
     cd backend-es
     mv bundle index.js package.json runtime.js $out/lib
     ln -s $out/lib/index.js $out/bin/purs-backend-es
-  '';
+  '' + (import ./lib.nix p).make-completion "purs-backend-es"
+    [
+      "build"
+      "bundle-app"
+      "bundle-module"
+    ];
 }

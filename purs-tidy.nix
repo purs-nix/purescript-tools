@@ -47,5 +47,14 @@ p.stdenvNoCC.mkDerivation {
     mkdir -p $out/{bin,lib}
     cp -r bin bundle package.json $out/lib
     ln -s $out/lib/bin/index.js $out/bin/purs-tidy
-  '';
+    mkdir -p $out/share/bash-completion/completions
+    cd $_
+  '' + (import ./lib.nix p).make-completion "purs-tidy"
+    [
+      "check"
+      "format"
+      "format-in-place"
+      "generate-config"
+      "generate-operators"
+    ];
 }
