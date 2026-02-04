@@ -18,7 +18,7 @@
           p = pkgs;
           # we can't use a normal input because these flakes depend on each other
           # doing so would cause the flake.lock to grow with every update
-          purs-nix = getFlake "github:purs-nix/purs-nix/7bdc233f02c8467250ec90c4bccfe8c45ae5d804";
+          purs-nix = getFlake "github:purs-nix/purs-nix/b4a67ddfea124db61f4afd86244eb23823d6c512";
           lu-pkgs = inputs.lint-utils.packages.${system};
         in
         rec {
